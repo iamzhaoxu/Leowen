@@ -1,22 +1,22 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Leowen.ErrorHandling;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
+using NWebsec.Core.Common.Middleware.Options;
 using Swashbuckle.AspNetCore.Swagger;
 
 namespace Leowen
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        private readonly ILoggerFactory _loggerFactory;
+        public Startup(IConfiguration configuration, ILoggerFactory loggerFactory)
         {
             Configuration = configuration;
+            _loggerFactory = loggerFactory;
         }
 
         public IConfiguration Configuration { get; }
@@ -24,7 +24,11 @@ namespace Leowen
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc();
+            new AppModule().Register(services);
+            services.AddMvc(c =>
+            {
+                c.Filters.Add(new AppExceptionFilterAttribute(_loggerFactory));
+            });
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new Info { Title = "Redify Test API", Version = "v1", Contact = new Contact
@@ -42,7 +46,6 @@ namespace Leowen
             {
                 app.UseDeveloperExceptionPage();
             }
-
             app.UseMvc();
             app.UseSwagger();
             app.UseSwaggerUI(c =>

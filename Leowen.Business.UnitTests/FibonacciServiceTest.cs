@@ -1,5 +1,4 @@
-﻿using System;
-using Leowen.Business.Fibonacci;
+﻿using Leowen.Business.Fibonacci;
 using Leowen.Core.ErrorHandling;
 using NUnit.Framework;
 using Shouldly;
@@ -46,7 +45,7 @@ namespace Leowen.Business.UnitTests
         public void When_call_GetNthFibonacciNumber_Given_nth_out_of_ranage_Should_throw_out_of_range_exception(long nth)
         {
             Should.Throw<AppException>(() => _sut.GetNthFibonacciNumber(nth))
-                .EventId.ShouldBe((int)EventId.FibonacciBadRequest);
+                .EventId.ShouldBe((int)EventCode.FibonacciBadRequest);
         }
     }
 }

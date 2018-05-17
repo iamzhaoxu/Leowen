@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Net;
-using System.Text;
 
 namespace Leowen.Core.ErrorHandling
 {
@@ -12,12 +10,12 @@ namespace Leowen.Core.ErrorHandling
         public HttpStatusCode? HttpStatusCode { get; set; }
         public string ReplyMessage { get; }
 
-        public AppException(EventId eventId, string errorMessage, Exception innerException = null) 
+        public AppException(EventCode eventId, string errorMessage, Exception innerException = null) 
             : this(eventId, errorMessage, null, innerException)
         {
         }
 
-        public AppException(EventId eventId, string errorMessage, string replyMessage, Exception innerException = null) : base(errorMessage, innerException)
+        public AppException(EventCode eventId, string errorMessage, string replyMessage, Exception innerException = null) : base(errorMessage, innerException)
         {
             EventId = (int)eventId;
             ReplyMessage = replyMessage;

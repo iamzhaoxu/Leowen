@@ -1,11 +1,9 @@
-﻿using System;
-using Leowen.ErrorHandling;
+﻿using Leowen.ErrorHandling;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using NWebsec.Core.Common.Middleware.Options;
 using Swashbuckle.AspNetCore.Swagger;
 
 namespace Leowen
@@ -28,6 +26,7 @@ namespace Leowen
             services.AddMvc(c =>
             {
                 c.Filters.Add(new AppExceptionFilterAttribute(_loggerFactory));
+                c.Filters.Add(new ValidateModelAttribute(_loggerFactory));
             });
             services.AddSwaggerGen(c =>
             {

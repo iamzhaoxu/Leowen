@@ -1,9 +1,4 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
-using System.Net;
-using Leowen.Business.Fibonacci;
-using Leowen.Business.ReverseWords;
-using Leowen.Core.ErrorHandling;
+﻿using Leowen.Business.ReverseWords;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Leowen.Controllers.ReverseWords

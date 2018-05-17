@@ -1,10 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace Leowen.Controllers.Fibonacci
 {
     public class FibonacciRequest
     {
-        [Required]
-        public long? N { get; set; }
+        [BindRequired]
+        [FromQuery(Name = "n")]
+        public long Nth { get; set; }
     }
 }

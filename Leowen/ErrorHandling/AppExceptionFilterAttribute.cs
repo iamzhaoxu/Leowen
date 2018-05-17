@@ -1,6 +1,4 @@
-﻿using System.Net;
-using Leowen.Core.ErrorHandling;
-using Microsoft.AspNetCore.Mvc;
+﻿using Leowen.Core.ErrorHandling;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Logging;
 

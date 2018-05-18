@@ -10,7 +10,6 @@ namespace Leowen
 {
     public class Startup
     {
-        private readonly ILoggerFactory _loggerFactory;
         private readonly IEnumerable<IAppConfiguable> _appConfiguables;
         public Startup(IConfiguration configuration, 
             IEnumerable<IAppConfiguable> appConfiguables)

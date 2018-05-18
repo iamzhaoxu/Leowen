@@ -1,5 +1,8 @@
-﻿using Microsoft.AspNetCore;
+﻿using Leowen.Configuration;
+using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace Leowen
 {
@@ -12,6 +15,10 @@ namespace Leowen
 
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
+                .ConfigureServices(serviceCollection =>
+                {
+                    new AppModule().Register(serviceCollection);
+                })
                 .UseStartup<Startup>()
                 .Build();
     }

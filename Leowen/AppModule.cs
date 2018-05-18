@@ -1,4 +1,5 @@
 ﻿using Leowen.Business;
+using Leowen.Configuration;
 using Leowen.Core;
 using Leowen.Core.DependencyInjection;
 using Leowen.ErrorHandling;
@@ -13,6 +14,9 @@ namespace Leowen
             new CoreModule().Register(serviceCollection);
             new BusinessServicesModule().Register(serviceCollection);
             serviceCollection.AddSingleton<IAppActionResultService, AppActionResultService>();
+            serviceCollection.AddTransient<IAppConfiguable, MvcConfiguration>();
+            serviceCollection.AddTransient<IAppConfiguable, MiddlewareConfiguation>();
+            serviceCollection.AddTransient<IAppConfiguable, SwaggerConfiguration>();
         }
     }
 }

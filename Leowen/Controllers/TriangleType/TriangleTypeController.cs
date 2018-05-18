@@ -15,7 +15,7 @@ namespace Leowen.Controllers.TriangleType
         [HttpGet]
         public IActionResult Get(TriangleTypeRequest request)
         {
-            var name = _triangleService.GeTriangleType(request.EdageA, request.EdageB, request.EdageC).Name;
+            var name = _triangleService.GetTriangleType(request.EdageA, request.EdageB, request.EdageC).Name;
             return Ok(name);
         }
     }

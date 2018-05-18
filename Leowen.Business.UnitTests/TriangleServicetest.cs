@@ -35,7 +35,7 @@ namespace Leowen.Business.UnitTests
             _edageService.Setup(c => c.AllEdgesSame(edgeA, edgeB, edgeC)).Returns(allEdgesSame);
             _edageService.Setup(c => c.AtLeastTwoEdagesSame(edgeA, edgeB, edgeC)).Returns(atLeastTwoEdgesSame);
             _edageService.Setup(c => c.EdgeLongerThanSumOfOthers(edgeA, edgeB, edgeC)).Returns(edgeLongerThanOtherSum);
-            _sut.GeTriangleType(edgeA, edgeB, edgeC).Name.ShouldBe(expected);
+            _sut.GetTriangleType(edgeA, edgeB, edgeC).Name.ShouldBe(expected);
 
         }
     }

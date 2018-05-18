@@ -1,20 +1,22 @@
-﻿using Leowen.ErrorHandling;
+﻿using System.Collections.Generic;
+using Leowen.Configuration;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Swashbuckle.AspNetCore.Swagger;
 
 namespace Leowen
 {
     public class Startup
     {
         private readonly ILoggerFactory _loggerFactory;
-        public Startup(IConfiguration configuration, ILoggerFactory loggerFactory)
+        private readonly IEnumerable<IAppConfiguable> _appConfiguables;
+        public Startup(IConfiguration configuration, 
+            IEnumerable<IAppConfiguable> appConfiguables)
         {
             Configuration = configuration;
-            _loggerFactory = loggerFactory;
+            _appConfiguables = appConfiguables;
         }
 
         public IConfiguration Configuration { get; }
@@ -22,35 +24,19 @@ namespace Leowen
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            new AppModule().Register(services);
-            services.AddMvc(c =>
+            foreach (var appConfiguable in _appConfiguables)
             {
-                c.Filters.Add(new AppExceptionFilterAttribute(_loggerFactory));
-                c.Filters.Add(new ValidateModelAttribute(_loggerFactory));
-            });
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new Info { Title = "Redify Test API", Version = "v1", Contact = new Contact
-                {
-                    Email = "iamzhaoxu@gmail.com",
-                    Name = "Xu Zhao"
-                }});
-            });
+                appConfiguable.Configure(services);
+            }
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            if (env.IsDevelopment())
+            foreach (var appConfiguable in _appConfiguables)
             {
-                app.UseDeveloperExceptionPage();
+                appConfiguable.Use(app, env);
             }
-            app.UseMvc();
-            app.UseSwagger();
-            app.UseSwaggerUI(c =>
-            {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Redify Test API V1");
-            });
         }
     }
 }
